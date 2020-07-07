@@ -42,7 +42,7 @@ void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
 
 // HSA (Task 5)
 //void GraphNode::MoveChatbotHere(ChatBot *chatbot)
-void GraphNode::MoveChatbotHere(ChatBot &&chatbot)
+void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
 //    _chatBot = chatbot;
 //    _chatBot->SetCurrentNode(this);
