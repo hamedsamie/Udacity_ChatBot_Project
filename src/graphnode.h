@@ -61,7 +61,7 @@ public:
 
     // HSA (Task 5)
 //    void MoveChatbotHere(ChatBot *chatbot);
-    void MoveChatbotHere(ChatBot &&chatbot);
+    void MoveChatbotHere(ChatBot chatbot);
 
     ////
     //// EOF STUDENT CODE
