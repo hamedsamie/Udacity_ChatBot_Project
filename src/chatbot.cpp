@@ -35,13 +35,12 @@ ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
 
-    // HSA
     //    // deallocate heap memory
-    //    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    //    {
-    //        delete _image;
-    //        _image = NULL;
-    //    }
+    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {
+        delete _image;
+        _image = NULL;
+    }
 }
 
 //// STUDENT CODE
@@ -68,6 +67,7 @@ ChatBot::ChatBot(ChatBot &&source)
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
     _image = source._image;
+
     source._image = nullptr;
     source._currentNode = nullptr;
     source._rootNode = nullptr;
@@ -99,7 +99,15 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
         _currentNode = source._currentNode;
         _rootNode = source._rootNode;
         _chatLogic = source._chatLogic;
-        _image = source._image;
+        //        _image = source._image;
+        // deep copy
+        if (_image != nullptr)
+        {
+            delete _image;
+        }
+        _image = new wxBitmap();
+        *_image = *source._image;
+
         source._image = nullptr;
         source._currentNode = nullptr;
         source._rootNode = nullptr;

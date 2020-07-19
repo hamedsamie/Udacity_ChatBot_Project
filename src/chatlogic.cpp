@@ -168,7 +168,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](const std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            // HSA (Task4)
+//                            GraphEdge *edge = new GraphEdge(id);
+                            std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
+
                             // HSA(Task3)
 //                            edge->SetChildNode(*childNode);
 //                            edge->SetParentNode(*parentNode);
@@ -182,8 +185,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+//                            (*childNode)->AddEdgeToParentNode(edge);
+//                            (*parentNode)->AddEdgeToChildNode(edge);
+                            // store reference in child node and parent node
+                            // HSA (Task4)
+                            (*childNode)->AddEdgeToParentNode(edge.get()); //add non-owning reference
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge)); //transfer ownership to parent node
                         }
 
                         ////

@@ -25,16 +25,20 @@ void GraphNode::AddToken(std::string token)
     _answers.push_back(token);
 }
 
+// HSA (Task 4)
+// add non-owning reference
 void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
 {
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+// HSA (Task 4)
+//transfer ownership to parent node
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 {
     // HSA (Task 4)
-//    _childEdges.push_back(edge);
-    _childEdges.push_back(std::unique_ptr<GraphEdge>(edge));
+    //   _childEdges.push_back(edge);
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
@@ -44,8 +48,8 @@ void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
 //void GraphNode::MoveChatbotHere(ChatBot *chatbot)
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
-//    _chatBot = chatbot;
-//    _chatBot->SetCurrentNode(this);
+    //    _chatBot = chatbot;
+    //    _chatBot->SetCurrentNode(this);
     _chatBot = std::move(chatbot);
     _chatBot.GetChatLogicHandle()->SetChatbotHandle(&_chatBot);
     _chatBot.SetCurrentNode(this);
@@ -54,10 +58,11 @@ void GraphNode::MoveChatbotHere(ChatBot chatbot)
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
     // HSA (Task 5)
-//    newNode->MoveChatbotHere(_chatBot);
+    //    newNode->MoveChatbotHere(_chatBot);
     newNode->MoveChatbotHere(std::move(_chatBot));
-//    _chatBot = nullptr; // invalidate pointer at source
+    //    _chatBot = nullptr; // invalidate pointer at source
 }
+
 ////
 //// EOF STUDENT CODE
 
@@ -67,7 +72,7 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
     ////
 
     // HSA (Task 4)
-//    return _childEdges[index];
+    //    return _childEdges[index];
     return _childEdges[index].get();
 
     ////
